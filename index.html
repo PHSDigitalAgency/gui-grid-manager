@@ -1,0 +1,72 @@
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>Grid Generator</title>
+    <meta name="description" content="" />
+    <meta name="viewport" content="width=device-width" />
+
+    <link rel="stylesheet" href="src/css/styles.css" />
+    <link rel="stylesheet" href="src/angular-gridster/angular-gridster.css" />
+	<link rel="stylesheet" href="bower_components/font-awesome/css/font-awesome.css" />
+
+    <script src="bower_components/angular/angular.min.js"></script>
+    <script src="src/angular-gridster/angular-gridster.js"></script>
+    <script src="bower_components/angular-fontawesome/dist/angular-fontawesome.min.js"></script>
+    <script src="src/js/grid.scripts.js"></script>
+</head>
+
+<body ng-app="app" ng-strict-di>
+	<div class="container" ng-view>
+		<div ng-controller="GridController">
+
+			<div class="topbar">
+				<div class='toolbox'>
+					<button ng-click="addGridItem()">Add bloc</button>
+
+					<select ng-change="renderHTMLGrid()" ng-model="viewport.framework" ng-options="opt as opt.label for opt in gridFrameworkOptions">
+					</select>
+				</div>
+
+				<div class='select-size'>
+					<button ng-model="viewport.size" ng-repeat="opt in screenSizeOptions" ng-click="screenSizeChange(opt)">{{ opt.label }}</button>
+				</div>
+
+				<div class="infobox">
+					<span class="screen-size">{{ viewport.size.label }}</span>
+				</div>
+			</div>
+
+			<div gridster="gridGridsterOpts">
+				<ul>
+					<li gridster-item="item" ng-repeat="(key, item) in gridItems">
+						<div class="icons-item-wrapper">
+							<fa ng-click="removeGridItem(item)" name="trash" size="1"></fa>
+						</div>
+						<div class="name-item-wrapper">
+							<input ng-model="item.name" ng-change="changeNameGridItem(item, item.name)"/>
+						</div>
+						<div class="infos-item-wrapper infos-item-position">
+							<span>col: {{ viewport[viewport.size.value][key].col + 1}}, row: {{ viewport[viewport.size.value][key].row + 1}}</span>
+						</div>
+						<div class="infos-item-wrapper infos-item-size">
+							<span>span: {{ viewport[viewport.size.value][key].sizeX }}</span>
+						</div>
+					</li>
+				</ul>
+			</div>
+
+			<div class="markup">
+				<pre>
+					<code>
+						{{ markup }}
+					</code>
+				</pre>
+			</div>
+		</div>
+	</div>
+
+
+</body>
+
+</html>
